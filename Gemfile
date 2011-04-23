@@ -1,0 +1,7 @@
+#gem 'dropbox', :git => 'https://github.com/mathieuravaux/dropbox.git'
+gem 'dropbox', :git => 'https://github.com/RISCfuture/dropbox.git'
+#gem 'dropbox', :path => 'dropbox'
+gem 'sinatra'
+gem 'thin'
+gem 'rsolr'
+gem 'haml'

@@ -1,0 +1,43 @@
+GIT
+  remote: https://github.com/RISCfuture/dropbox.git
+  revision: c752471e7f6d829caba90961d8301aaf78b648c8
+  specs:
+    dropbox (1.2.3)
+      json (>= 1.2.0)
+      mechanize (>= 1.0.0)
+      multipart-post (>= 1.0)
+      oauth (>= 0.3.6)
+
+GEM
+  specs:
+    builder (3.0.0)
+    daemons (1.1.0)
+    eventmachine (0.12.10)
+    haml (3.0.25)
+    json (1.5.1)
+    mechanize (1.0.0)
+      nokogiri (>= 1.2.1)
+    multipart-post (1.1.0)
+    nokogiri (1.4.4)
+    oauth (0.4.4)
+    rack (1.2.2)
+    rsolr (1.0.0)
+      builder (>= 2.1.2)
+    sinatra (1.2.3)
+      rack (~> 1.1)
+      tilt (< 2.0, >= 1.2.2)
+    thin (1.2.8)
+      daemons (>= 1.0.9)
+      eventmachine (>= 0.12.6)
+      rack (>= 1.0.0)
+    tilt (1.2.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  dropbox!
+  haml
+  rsolr
+  sinatra
+  thin

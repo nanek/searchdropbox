@@ -1,0 +1,58 @@
+body {
+  width: 960px;
+  font-family: arial, sans-serif;
+  font-size: 13px;
+}
+
+#header {
+  font-size: 20px;
+}
+
+#content {
+  min-height: 400px;
+}
+
+#search_box {
+}
+
+input#q {
+  width: 600px;
+  font-size: 18px;
+}
+
+input#submit {
+  font-size: 18px;
+}
+
+#left {
+  float:left;
+  width: 200px;
+}
+
+#right {
+  float:left;
+  width: 760px;
+}
+
+.search_result {
+  padding: 10px 0px;
+  clear: both;
+}
+
+.info {
+  font-size: 12px;
+  padding: 2px 0px;
+}
+
+.content_type, .attr_created {
+  float: left;
+  padding: 0px 5px 0px 0px;
+}
+
+.snippet em {
+  font-weight: bold;
+}
+
+#footer {
+  clear:both;
+}

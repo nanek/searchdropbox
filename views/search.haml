@@ -1,0 +1,26 @@
+#left
+  - @facets.each do |facet|
+    .facet
+      %h3= facet[0]
+      - facet[1].each_index do |index|
+        - if index % 2==0 then
+          .facet_term= facet[1][index] + ' ' + facet[1][index+1].to_s
+
+#right
+  #search_box
+    %form{ :action => "/search", :method => "get"}
+      %input{:type => "text", :name => "q", :id => "q", :value => params[:q] }
+      %input{:type => "submit", :value => "Search", :id => "submit"}
+  #search_count= "Results: #{@numFound}"
+  - @results.each do |result|
+    .search_result
+      %a(href="/file#{result['id']}" target="_new") 
+        =result['id'][1..-1]
+      .snippet= @highlighting[result['id']]['attr_content']
+      .info
+        .content_type= result['content_type']
+        .attr_created= result['attr_created']
+
+  -# result.each do |k, v|
+  -#  .attr= k
+  -#  .value= v 
