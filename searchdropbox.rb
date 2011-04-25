@@ -94,7 +94,8 @@ get '/index' do
       'literal.db_modified' => doc.modified })
     end 
   end
-  solr.update :data => '<commit/>'
+  #solr.update :data => '<commit/>'
+  solr.commit
   redirect to('search')
 end
 
@@ -127,10 +128,24 @@ get '/search' do
   haml :search
 end
 
-def authorize
-  return redirect to('authorize?r=search') unless session[:dropbox_session]
+get '/delete' do
+  return redirect to('authorize?r=delete') unless session[:dropbox_session]
   dropbox_session = Dropbox::Session.deserialize(session[:dropbox_session])
-  return redirect to('authorize?r=search') unless dropbox_session.authorized?
+  return redirect to('authorize?r=delete') unless dropbox_session.authorized?
+
+  uid = dropbox_session.account["uid"].to_s
+
+  user_dir = File.join(FILE_DIR, uid)
+  if File.exists?(user_dir) then
+    user_dir.each { |x| File.delete(File.join(user_dir, x)) unless x=='.' || x=='..' }
+    Dir.rmdir(user_dir.path)
+  end
+  
+  solr = RSolr.connect :url => settings.SOLR_URL
+  solr.delete_by_query 'attr_uid:' + uid
+  solr.commit
+  
+  haml :delete
 end
 
 def sanitize_filename(filename)
