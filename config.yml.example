@@ -2,11 +2,14 @@ development:
   DROPBOX_API_KEY: 'YOUR_KEY_HERE'
   DROPBOX_API_SECRET: 'YOUR_SECRET_HERE'
   DROPBOX_API_CALLBACK: 'http://YOUR_HOST_HERE/authorize'
-  INDEX_DIR: '/path/to/files/'
+  SOLR_URL: 'http://localhost:8983/solr'
+test:
+  DROPBOX_API_KEY: 'YOUR_KEY_HERE'
+  DROPBOX_API_SECRET: 'YOUR_SECRET_HERE'
+  DROPBOX_API_CALLBACK: 'http://YOUR_HOST_HERE/authorize'
   SOLR_URL: 'http://localhost:8983/solr'
 production:
   DROPBOX_API_KEY: 'YOUR_KEY_HERE'
   DROPBOX_API_SECRET: 'YOUR_SECRET_HERE'
   DROPBOX_API_CALLBACK: 'http://YOUR_HOST_HERE/authorize'
-  INDEX_DIR: '/path/to/files/'
   SOLR_URL: 'http://localhost:8983/solr'

@@ -2,14 +2,28 @@ Full Text Search with Dropbox
 
 Description
 ===========
-Allows you to full text index documents stored in your dropbox account.
+Allows you to full text index documents stored in your dropbox account.  Upon authenticating, you can input the Dropbox directory to index.
 
 Installation
 ============
-Requires Solr
+Requires Solr 3.1.0 or above
 
-Update config settings in config.yml
+Install Solr and run using the example configuration:
+cd apache-solr-3.1.0/example
+nohup java -jar start &
+
+NOTE: You will want to configure Solr to only bind to localhost instead of all IP's which it does by default.  In addition you will want to block all traffic to the default port 8983.  Without these steps, solr will be unsecure and available for anyone to search your files.
+
+Download and extract searchdropbox
+cd searchdropbox
+Update config settings with Dropbox application API keys in config.yml.example and copy to config.yml
 
 To start and stop the application:
-thin -C thin.yaml start
-thin -C thin.yaml stop
+thin -C thin.yml start
+thin -C thin.yml stop
+
+Should default to running at http://yourhost:4567/
+
+Development notes
+============
+Uses sinatra, haml, dropbox, and rsolr.
