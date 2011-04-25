@@ -11,7 +11,12 @@
     %form{ :action => "/search", :method => "get"}
       %input{:type => "text", :name => "q", :id => "q", :value => params[:q] }
       %input{:type => "submit", :value => "Search", :id => "submit"}
-  #search_count= "Results: #{@numFound}"
+  #search_count
+    = "Results: #{@numFound}"
+    %form{ :action => "/index", :method => "get"}
+      Dropbox Folder to index (ex: / or /Public):
+      %input{:type => "text", :name => "f", :id => "f" }
+      %input{:type => "submit", :value => "Index", :id => "index"}
   - @results.each do |result|
     .search_result
       %a(href="/file?n=#{result['id']}" target="_new") 

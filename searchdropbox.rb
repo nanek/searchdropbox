@@ -30,10 +30,10 @@ get '/file' do
 
   uid = dropbox_session.account["uid"].to_s
   
-  content_type :pdf #TODO
-
   filename = File.expand_path(File.join(FILE_DIR, uid, sanitize_filename(params[:n])))
   raise if FILE_DIR != File.expand_path(File.join(File.dirname(filename), '../'))
+  
+  content_type mimetype(filename)
   File.read(filename)
 end
 
@@ -43,8 +43,7 @@ get '/authorize' do
     dropbox_session.authorize(params)
     session[:dropbox_session] = dropbox_session.serialize # re-serialize the authenticated session
 
-    return_url = params[:r] || 'search'
-    redirect to return_url 
+    redirect to 'search'
   elsif session[:dropbox_session] then
     dropbox_session = Dropbox::Session.deserialize(session[:dropbox_session])
     if dropbox_session.authorized? then
@@ -82,9 +81,10 @@ get '/index' do
   end
   files.each do |doc|
     if !doc.directory? then
+      filename = File.join(FILE_DIR, uid, sanitize_filename(doc.path))
       request = solr.post('update/extract', :data=>'myfile', :params => {'literal.id' => doc.path,
-      'stream.file' => File.join(FILE_DIR, uid, sanitize_filename(doc.path)),
-      'stream.contentType' => 'application/pdf',
+      'stream.file' => filename,
+      'stream.contentType' => mimetype(filename),
       'uprefix' => 'attr_',
       'fmap.content' => 'attr_content',
       'literal.uid' => uid,
@@ -106,7 +106,7 @@ get '/search' do
 
   uid = dropbox_session.account["uid"].to_s
 
-  search_term = params[:q]
+  search_term = params[:q] || '*'
   @results = []
   @facets = []
   @highlighting = []
@@ -115,7 +115,7 @@ get '/search' do
     response = solr.get 'select', :params => {:q => 'attr_content:' + search_term,
        :hl => "true",
        "hl.fl" => "attr_content",
-       #"fl" => TODO,
+       "fl" => "id,content_type,attr_created",
        "hl.fragsize" => "300",
        :facet => "true",
        "facet.field" => "content_type",
@@ -146,6 +146,10 @@ get '/delete' do
   solr.commit
   
   haml :delete
+end
+
+def mimetype(filename)
+  mimetype = `file --mime-type "#{filename}" -br`.strip
 end
 
 def sanitize_filename(filename)
