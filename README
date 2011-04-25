@@ -1,0 +1,15 @@
+Full Text Search with Dropbox
+
+Description
+===========
+Allows you to full text index documents stored in your dropbox account.
+
+Installation
+============
+Requires Solr
+
+Update config settings in config.yml
+
+To start and stop the application:
+thin -C thin.yaml start
+thin -C thin.yaml stop

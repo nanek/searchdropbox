@@ -14,7 +14,7 @@
   #search_count= "Results: #{@numFound}"
   - @results.each do |result|
     .search_result
-      %a(href="/file#{result['id']}" target="_new") 
+      %a(href="/file?n=#{result['id']}" target="_new") 
         =result['id'][1..-1]
       .snippet= @highlighting[result['id']]['attr_content']
       .info

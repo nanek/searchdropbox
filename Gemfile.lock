@@ -12,6 +12,9 @@ GEM
   specs:
     builder (3.0.0)
     daemons (1.1.0)
+    diff-lcs (1.1.2)
+    dummy_dropbox (0.0.2)
+      dropbox
     eventmachine (0.12.10)
     haml (3.0.25)
     json (1.5.1)
@@ -21,8 +24,18 @@ GEM
     nokogiri (1.4.4)
     oauth (0.4.4)
     rack (1.2.2)
+    rack-test (0.5.7)
+      rack (>= 1.0)
     rsolr (1.0.0)
       builder (>= 2.1.2)
+    rspec (2.5.0)
+      rspec-core (~> 2.5.0)
+      rspec-expectations (~> 2.5.0)
+      rspec-mocks (~> 2.5.0)
+    rspec-core (2.5.1)
+    rspec-expectations (2.5.0)
+      diff-lcs (~> 1.1.2)
+    rspec-mocks (2.5.0)
     sinatra (1.2.3)
       rack (~> 1.1)
       tilt (< 2.0, >= 1.2.2)
@@ -37,7 +50,10 @@ PLATFORMS
 
 DEPENDENCIES
   dropbox!
+  dummy_dropbox
   haml
+  rack-test
   rsolr
+  rspec
   sinatra
   thin

@@ -1,0 +1,12 @@
+environment: production
+chdir: /home/nanek/sites/searchdropbox 
+user: nanek
+group: nanek
+port: 4567
+pid: /home/nanek/sites/searchdropbox/tmp/thin.pid
+rackup: /home/nanek/sites/searchdropbox/config.ru
+log: /home/nanek/sites/searchdropbox/logs/thin.log
+max_conns: 1024
+timeout: 30
+max_persistent_conns: 512
+daemonize: true

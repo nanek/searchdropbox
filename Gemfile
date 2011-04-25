@@ -5,3 +5,9 @@ gem 'sinatra'
 gem 'thin'
 gem 'rsolr'
 gem 'haml'
+
+group :test do
+  gem 'rack-test'
+  gem 'rspec'
+  gem 'dummy_dropbox'
+end
