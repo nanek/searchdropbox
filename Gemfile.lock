@@ -1,6 +1,5 @@
-GIT
-  remote: https://github.com/RISCfuture/dropbox.git
-  revision: c752471e7f6d829caba90961d8301aaf78b648c8
+PATH
+  remote: dropbox
   specs:
     dropbox (1.2.3)
       json (>= 1.2.0)
@@ -11,12 +10,12 @@ GIT
 GEM
   specs:
     builder (3.0.0)
-    daemons (1.1.0)
+    daemons (1.1.3)
     diff-lcs (1.1.2)
     dummy_dropbox (0.0.2)
       dropbox
     eventmachine (0.12.10)
-    haml (3.0.25)
+    haml (3.1.1)
     json (1.5.1)
     mechanize (1.0.0)
       nokogiri (>= 1.2.1)
@@ -38,12 +37,12 @@ GEM
     rspec-mocks (2.5.0)
     sinatra (1.2.3)
       rack (~> 1.1)
-      tilt (< 2.0, >= 1.2.2)
-    thin (1.2.8)
+      tilt (>= 1.2.2, < 2.0)
+    thin (1.2.11)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
       rack (>= 1.0.0)
-    tilt (1.2.2)
+    tilt (1.3)
 
 PLATFORMS
   ruby

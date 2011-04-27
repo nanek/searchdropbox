@@ -1,16 +1,12 @@
-require 'searchdropbox'  # <-- your sinatra app
-require 'rspec'
-require 'rack/test'
+require File.dirname(__FILE__) + '/spec_helper'
 require 'dummy_dropbox'
-
-set :environment, :test
 
 describe 'Search Dropbox App' do
   include Rack::Test::Methods
 
   before(:all) do 
     app.send(:set, :sessions, false)
-    DummyDropbox.root_path = File.dirname(__FILE__) + 'dummydropbox' 
+    DummyDropbox.root_path = File.join(File.dirname(__FILE__), 'dummydropbox')
     dropbox_session = Dropbox::Session.new(settings.DROPBOX_API_KEY, settings.DROPBOX_API_SECRET)
     @session = { :dropbox_session => dropbox_session.serialize }
   end
@@ -28,5 +24,9 @@ describe 'Search Dropbox App' do
     get '/search', '', 'rack.session' => @session 
     last_response.should be_ok
   end
+  
+  it "should display index page" do
+    get '/index', '', 'rack.session' => @session 
+    last_response.should be_redirect
+  end
 end
-

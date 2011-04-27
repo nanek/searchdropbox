@@ -6,6 +6,8 @@ require 'rsolr'
 require 'haml'
 require 'pathname'
 
+require 'config/init.rb'
+
 configure do   
   yaml = YAML.load_file("config.yml")[settings.environment.to_s]
   yaml.each_pair do |key, value|
@@ -54,7 +56,7 @@ get '/authorize' do
     end
   else
     dropbox_session = Dropbox::Session.new(settings.DROPBOX_API_KEY, settings.DROPBOX_API_SECRET)
-    dropbox_session.mode = :dropbox
+    #dropbox_session.mode = :dropbox
     session.clear
     session[:dropbox_session] = dropbox_session.serialize
     redirect to dropbox_session.authorize_url(:oauth_callback => settings.DROPBOX_API_CALLBACK)
@@ -65,17 +67,18 @@ get '/index' do
   return redirect to('authorize?r=index') unless session[:dropbox_session]
   dropbox_session = Dropbox::Session.deserialize(session[:dropbox_session])
   return redirect to('authorize?r=index') unless dropbox_session.authorized?
+  dropbox_session.mode = :dropbox # note this is not part of the dropbox_session
 
   uid = dropbox_session.account["uid"].to_s
   folder = params[:f] || '/'
 
   solr = RSolr.connect :url => settings.SOLR_URL
   paths = []
-  files = dropbox_session.metadata(folder, { :mode => :dropbox }).contents
+  files = dropbox_session.list(folder)
   files.each { |file| if !file.directory? then paths << file.path end }
   FileUtils.mkdir_p(File.join(FILE_DIR, uid))
   for path in paths
-    contents = dropbox_session.download(path, { :mode => :dropbox })
+    contents = dropbox_session.download(path)
     file_path = File.join(FILE_DIR, uid, sanitize_filename(path))
     File.open(file_path, 'w') {|f| f.write(contents) }
   end
@@ -105,8 +108,13 @@ get '/search' do
   return redirect to('authorize?r=search') unless dropbox_session.authorized?
 
   uid = dropbox_session.account["uid"].to_s
-
-  search_term = params[:q] || '*'
+  if params[:q].nil? || params[:q].empty? then
+    search_term = nil
+  else
+    search_term = URI.unescape(params[:q])
+    #search_term.gsub!(/[+]/,' ')
+  end
+  search_term = search_term || '*'
   @results = []
   @facets = []
   @highlighting = []
