@@ -5,6 +5,7 @@ require 'dropbox'
 require 'rsolr'
 require 'haml'
 require 'pathname'
+require 'fileutils'
 
 require 'config/init.rb'
 
@@ -56,7 +57,6 @@ get '/authorize' do
     end
   else
     dropbox_session = Dropbox::Session.new(settings.DROPBOX_API_KEY, settings.DROPBOX_API_SECRET)
-    #dropbox_session.mode = :dropbox
     session.clear
     session[:dropbox_session] = dropbox_session.serialize
     redirect to dropbox_session.authorize_url(:oauth_callback => settings.DROPBOX_API_CALLBACK)
@@ -127,7 +127,7 @@ get '/search' do
        "hl.fragsize" => "300",
        :facet => "true",
        "facet.field" => "content_type",
-       "fq.uid" => uid }
+       "fq" => "attr_uid:" + uid }
     @numFound = response["response"]["numFound"]
     @results = response["response"]["docs"]
     @highlighting = response["highlighting"]
@@ -140,13 +140,13 @@ get '/delete' do
   return redirect to('authorize?r=delete') unless session[:dropbox_session]
   dropbox_session = Dropbox::Session.deserialize(session[:dropbox_session])
   return redirect to('authorize?r=delete') unless dropbox_session.authorized?
+  dropbox_session.mode = :dropbox # note this is not part of the dropbox_session
 
   uid = dropbox_session.account["uid"].to_s
 
   user_dir = File.join(FILE_DIR, uid)
-  if File.exists?(user_dir) then
-    user_dir.each { |x| File.delete(File.join(user_dir, x)) unless x=='.' || x=='..' }
-    Dir.rmdir(user_dir.path)
+  if File.exists?(user_dir) && FILE_DIR != user_dir then
+    FileUtils.rm_rf user_dir
   end
   
   solr = RSolr.connect :url => settings.SOLR_URL
