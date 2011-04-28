@@ -24,6 +24,59 @@ body {
   display: none;
 }
 
+#index_box {
+  padding-top: 20px;
+  clear: both;
+}
+
+#selected_box {
+  padding-top: 20px;
+}
+
+.facet_term {
+  float: left;
+  display: block;
+  margin-right: 4px;
+  color: #6998f0;
+}
+.facet_term:hover {
+  color: #f00;
+}
+.facet_term_size_0 {
+  font-size: 80%;
+}
+.facet_term_size_1 {
+  font-size: 90%;
+}
+.facet_term_size_2 {
+  font-size: 100%;
+}
+.facet_term_size_3 {
+  font-size: 110%;
+}
+.facet_term_size_4 {
+  font-size: 120%;
+}
+.facet_term_size_5 {
+  font-size: 130%;
+}
+.facet_term_size_6 {
+  font-size: 140%;
+}
+.facet_term_size_7 {
+  font-size: 150%;
+}
+.facet_term_size_8 {
+  font-size: 160%;
+}
+.facet_term_size_9 {
+  font-size: 170%;
+}
+.facet_term_size_10 {
+  font-size: 180%;
+}
+
+
 #search_box {
 }
 

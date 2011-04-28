@@ -115,6 +115,13 @@ get '/search' do
     #search_term.gsub!(/[+]/,' ')
   end
   search_term = search_term || '*'
+
+  fq_content_type = params[:content_type]
+  fq_content_type ||= '' 
+  
+  fq_params = Array.new(["attr_uid:" + uid]) 
+  fq_params << "content_type:" + fq_content_type unless fq_content_type.empty?
+
   @results = []
   @facets = []
   @highlighting = []
@@ -127,7 +134,7 @@ get '/search' do
        "hl.fragsize" => "300",
        :facet => "true",
        "facet.field" => "content_type",
-       "fq" => "attr_uid:" + uid }
+       "fq" => fq_params }
     @numFound = response["response"]["numFound"]
     @results = response["response"]["docs"]
     @highlighting = response["highlighting"]

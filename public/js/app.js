@@ -7,6 +7,16 @@ $(document).ready(function(){
         $(this).hide();
     });
 
+  $('.selected_content_type').click(function() {
+    $('input[name="content_type"]').val('');
+    $('#search_form').submit();
+  });
+
+  $('.facet_term').click(function() {
+    $('input[name="content_type"]').val($(this).text());
+    $('#search_form').submit();
+  });
+
   $('#search_form')
     .bind("ajax:beforeSend", function(evt, xhr, settings){
     })
