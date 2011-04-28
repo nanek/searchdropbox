@@ -15,7 +15,7 @@ nohup java -jar start &
 NOTE: You will want to configure Solr to only bind to localhost instead of all IP's which it does by default.  In addition you will want to block all traffic to the default port 8983.  Without these steps, solr will be unsecure and available for anyone to search your files.
 
 Download and extract searchdropbox
-cd searchdropbox
+cd searchdropbox/config
 Update config settings with Dropbox application API keys in config.yml.example and copy to config.yml
 
 To start and stop the application:
@@ -26,4 +26,4 @@ Should default to running at http://yourhost:4567/
 
 Development notes
 ============
-Uses sinatra, haml, dropbox, and rsolr.
+Uses sinatra, haml, ujs, dropbox, and rsolr.

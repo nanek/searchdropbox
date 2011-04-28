@@ -8,15 +8,19 @@
 
 #right
   #search_box
-    %form{ :action => "/search", :method => "get"}
+    %form{:id => "search_form", :action => "/search", :method => "get", "data-remote" => "true"}
       %input{:type => "text", :name => "q", :id => "q", :value => params[:q] }
-      %input{:type => "submit", :value => "Search", :id => "submit"}
-  #search_count
+      %input{:type => "submit", :value => "Search", :id => "search_btn"}
+  #loading
+    %img(src="/images/loading.gif")
+    Loading...
+  #message
+  #search_results
     = "Results: #{@numFound}"
-    %form{ :action => "/index", :method => "get"}
+    %form{:id => "index_form", :action => "/index", :method => "get", "data-remote" => "true"}
       Dropbox Folder to index (ex: / or /Public):
       %input{:type => "text", :name => "f", :id => "f" }
-      %input{:type => "submit", :value => "Index", :id => "index"}
+      %input{:type => "submit", :value => "Index", :id => "index_btn"}
   - @results.each do |result|
     .search_result
       %a(href="/file?n=#{result['id']}" target="_new") 
@@ -29,3 +33,4 @@
   -# result.each do |k, v|
   -#  .attr= k
   -#  .value= v 
+%script(src="/js/app.js" type="text/javascript")

@@ -12,6 +12,18 @@ body {
   min-height: 400px;
 }
 
+#loading {
+  display:none;
+}
+
+#message {
+  border: 1px solid gray;
+  padding: 5px 5px;
+  margin: 15px 0px;
+  background-color: lightYellow;
+  display: none;
+}
+
 #search_box {
 }
 

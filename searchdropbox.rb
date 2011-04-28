@@ -10,7 +10,7 @@ require 'fileutils'
 require 'config/init.rb'
 
 configure do   
-  yaml = YAML.load_file("config.yml")[settings.environment.to_s]
+  yaml = YAML.load_file("config/config.yml")[settings.environment.to_s]
   yaml.each_pair do |key, value|
     set(key.to_sym, value)
   end
@@ -85,7 +85,7 @@ get '/index' do
   files.each do |doc|
     if !doc.directory? then
       filename = File.join(FILE_DIR, uid, sanitize_filename(doc.path))
-      request = solr.post('update/extract', :data=>'myfile', :params => {'literal.id' => doc.path,
+      search_request = solr.post('update/extract', :data=>'myfile', :params => {'literal.id' => doc.path,
       'stream.file' => filename,
       'stream.contentType' => mimetype(filename),
       'uprefix' => 'attr_',
@@ -99,7 +99,7 @@ get '/index' do
   end
   #solr.update :data => '<commit/>'
   solr.commit
-  redirect to('search')
+  request.xhr? ? "indexed" : (redirect to 'search')
 end
 
 get '/search' do
@@ -133,7 +133,7 @@ get '/search' do
     @highlighting = response["highlighting"]
     @facets = response["facet_counts"]["facet_fields"]
   end
-  haml :search
+  haml :search, :layout => !request.xhr?
 end
 
 get '/delete' do
@@ -153,7 +153,7 @@ get '/delete' do
   solr.delete_by_query 'attr_uid:' + uid
   solr.commit
   
-  haml :delete
+  haml :delete, :layout => !request.xhr?
 end
 
 def mimetype(filename)
