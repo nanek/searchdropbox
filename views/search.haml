@@ -6,6 +6,15 @@
         - if index % 2==0 then
           .facet_term= facet[1][index] + ' ' + facet[1][index+1].to_s
 
+  #index_box
+    %form{:id => "index_form", :action => "/index", :method => "post", "data-remote" => "true"}
+      %p 
+        Dropbox Folder to Add to Index
+        %br (ex: / or /Public):
+      %input{:type => "text", :name => "f", :id => "f" }
+      %input{:type => "submit", :value => "Index", :id => "index_btn"}
+    %form{:id => "delete_form", :action => "/delete", :method => "post", "data-remote" => "true", "data-confirm" => "Are you sure?"}
+      %input{:type => "submit", :value => "Delete Index", :id => "delete_btn"}
 #right
   #search_box
     %form{:id => "search_form", :action => "/search", :method => "get", "data-remote" => "true"}
@@ -17,10 +26,6 @@
   #message
   #search_results
     = "Results: #{@numFound}"
-    %form{:id => "index_form", :action => "/index", :method => "get", "data-remote" => "true"}
-      Dropbox Folder to index (ex: / or /Public):
-      %input{:type => "text", :name => "f", :id => "f" }
-      %input{:type => "submit", :value => "Index", :id => "index_btn"}
   - @results.each do |result|
     .search_result
       %a(href="/file?n=#{result['id']}" target="_new") 

@@ -63,7 +63,7 @@ get '/authorize' do
   end
 end
 
-get '/index' do
+post '/index' do
   return redirect to('authorize?r=index') unless session[:dropbox_session]
   dropbox_session = Dropbox::Session.deserialize(session[:dropbox_session])
   return redirect to('authorize?r=index') unless dropbox_session.authorized?
@@ -136,7 +136,7 @@ get '/search' do
   haml :search, :layout => !request.xhr?
 end
 
-get '/delete' do
+post '/delete' do
   return redirect to('authorize?r=delete') unless session[:dropbox_session]
   dropbox_session = Dropbox::Session.deserialize(session[:dropbox_session])
   return redirect to('authorize?r=delete') unless dropbox_session.authorized?

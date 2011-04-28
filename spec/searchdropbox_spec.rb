@@ -26,12 +26,12 @@ describe 'Search Dropbox App' do
   end
   
   it "should display index page" do
-    get '/index', '', 'rack.session' => @session 
+    post '/index', '', 'rack.session' => @session 
     last_response.should be_redirect
   end
   
   it "should display valid page after delete" do
-    get '/delete', '', 'rack.session' => @session 
+    post '/delete', '', 'rack.session' => @session 
     last_response.should be_ok
   end
 end
