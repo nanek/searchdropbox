@@ -27,3 +27,11 @@ Should default to running at http://yourhost:4567/
 Development notes
 ============
 Uses sinatra, haml, ujs, dropbox, and rsolr.
+
+Roadmap
+========
+- Update UI
+- Implement backbone.js
+- Add caching to dropbox api calls
+- Add more tests
+- Look into Solr Collections vs fq

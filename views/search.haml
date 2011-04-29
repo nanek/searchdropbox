@@ -31,8 +31,9 @@
     %img(src="/images/loading.gif")
     Loading...
   #message
-  #search_results
+  #search_count
     = "Results: #{@numFound}"
+  #search_results
     - @results.each do |result|
       .search_result
         %a(href="/file?n=#{result['id']}" target="_new") 
@@ -42,7 +43,22 @@
           .content_type= result['content_type']
           .attr_created= result['attr_created']
 
+%script(type="text/template" id="doc-template")
+  .search_result
+    - link = "/file?n=<%= doc_id %>"
+    %a(href=link target="_new") 
+      .doc_id <%= doc_id %> 
+    .snippet <%= snippet %> 
+    .info
+      .content_type <%= content_type %>
+      .attr_created <%= attr_created %>
+%script(type="text/template" id="facet-template")
+  %h3 <%= name %> 
   -# result.each do |k, v|
   -#  .attr= k
   -#  .value= v 
+%script(src="/js/underscore-min.js" type="text/javascript")
+%script(src="/js/json2.js" type="text/javascript")
+%script(src="/js/backbone-min.js" type="text/javascript")
 %script(src="/js/app.js" type="text/javascript")
+%script(src="/js/doclist.js" type="text/javascript")

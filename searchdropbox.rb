@@ -114,13 +114,15 @@ get '/search' do
     search_term = URI.unescape(params[:q])
     #search_term.gsub!(/[+]/,' ')
   end
-  search_term = search_term || '*'
 
   fq_content_type = params[:content_type]
   fq_content_type ||= '' 
   
   fq_params = Array.new(["attr_uid:" + uid]) 
   fq_params << "content_type:" + fq_content_type unless fq_content_type.empty?
+
+  wt = :ruby
+  if request.xhr? then wt = :json end
 
   @results = []
   @facets = []
@@ -134,13 +136,21 @@ get '/search' do
        "hl.fragsize" => "300",
        :facet => "true",
        "facet.field" => "content_type",
+       :wt => wt,
        "fq" => fq_params }
-    @numFound = response["response"]["numFound"]
-    @results = response["response"]["docs"]
-    @highlighting = response["highlighting"]
-    @facets = response["facet_counts"]["facet_fields"]
+    if request.xhr? then
+      content_type :json
+      response
+    else
+      @numFound = response["response"]["numFound"]
+      @results = response["response"]["docs"]
+      @highlighting = response["highlighting"]
+      @facets = response["facet_counts"]["facet_fields"]
+      haml :search
+    end
+  else
+    haml :search
   end
-  haml :search, :layout => !request.xhr?
 end
 
 post '/delete' do

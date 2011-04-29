@@ -21,7 +21,25 @@ $(document).ready(function(){
     .bind("ajax:beforeSend", function(evt, xhr, settings){
     })
     .bind("ajax:success", function(evt, data, status, xhr){
-      $('#content').html(xhr.responseText);
+      //$('#content').html(xhr.responseText);
+      response = $.parseJSON(xhr.responseText);
+      numFound = response["response"]["numFound"];
+      docs = response["response"]["docs"];
+      highlighting = response["highlighting"];
+      facets = response["facet_counts"]["facet_fields"];
+
+      DocApp.removeAll();
+     
+      _.each(docs, function(doc){ 
+        Docs.add({doc_id: doc.id, 
+                  snippet: highlighting[doc.id]['attr_content'], //"test",
+                  content_type:doc.content_type, 
+                  attr_created:doc.attr_created}); 
+      });
+      _.each(facets, function(facet){
+        //Facets.add({name:"test"});
+      });
+       
     })
     .bind('ajax:complete', function(evt, xhr, status){
     })
