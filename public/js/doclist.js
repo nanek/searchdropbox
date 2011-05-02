@@ -2,7 +2,7 @@ $(function() {
   window.SearchQuery = Backbone.Model.extend({
   });
   window.SearchView = Backbone.View.extend({
-    el: $('#search_box'),
+    el: $('#search-view'),
 
     events: {
       "submit #search_form":  "updateQuery",
@@ -36,6 +36,8 @@ $(function() {
       highlighting = response["highlighting"];
       facets = response["facet_counts"]["facet_fields"];
 
+      this.model.set({qr_count:numFound});
+
       Docs.each(function(doc) { doc.clear() });
       Filters.each(function(filter) { filter.clear() });
 
@@ -67,7 +69,7 @@ $(function() {
   });
   window.FilterSelectedView = Backbone.View.extend({
     template: _.template($('#filter-selected-template').html()),
-    el: $('#selected_box'),
+    el: $('#filter-selected-view'),
     initialize: function() {
       _.bindAll(this, 'render');
       this.model.bind('change:fq', this.render);
@@ -94,7 +96,9 @@ $(function() {
       for(var i=0; i<len; i++) {
         if (i%2==0) {
           ft = new FilterTerm({name:values[i], count:values[i+1]});
-          list.add(ft);
+          if (values[i+1] > 0) {
+            list.add(ft);
+          }
         }
       }
       this.set({filterTerms: list});
@@ -165,19 +169,24 @@ $(function() {
   window.DocListView = Backbone.View.extend({
     el: $("#content"),
     initialize: function() {
-      _.bindAll(this, 'addDoc', 'addFilter');
+      _.bindAll(this, 'addDoc', 'addFilter', 'updateResultCount');
       Docs.bind('add', this.addDoc);
       Filters.bind('add', this.addFilter);
+      this.model.bind('change:qr_count', this.updateResultCount);
     },
     
     addDoc: function(doc) {
       var view = new DocView({model: doc});
-      this.$("#search_results").append(view.render().el);
+      this.$("#doc-list-view").append(view.render().el);
     },
 
     addFilter: function(filter) {
       var view = new FilterCategoryView({model: filter});
-      this.$('#filter_box').append(view.render().el);
+      this.$('#filter-view').append(view.render().el);
+    },
+
+    updateResultCount: function() {
+      this.$('#result-count').html(this.model.get('qr_count'));
     },
   });
 

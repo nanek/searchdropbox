@@ -2,6 +2,7 @@ body {
   width: 960px;
   font-family: arial, sans-serif;
   font-size: 13px;
+  background-color: #CCC;
 }
 
 #header {
@@ -10,6 +11,20 @@ body {
 
 #content {
   min-height: 400px;
+}
+
+#left, #right {
+  background-color: white;
+  margin: 5px;
+  -moz-box-shadow: 5px 5px 5px #888;
+  -webkit-box-shadow: 5px 5px 5px #888;
+  box-shadow: 5px 5px 5px #888;
+}
+
+#index-view, #filter-selected-view, #search-view, #doc-list-view, #filter-view, #loading, #message {
+  background-color: white;
+  padding: 5px;
+  margin: 5px;
 }
 
 #loading {
@@ -24,18 +39,16 @@ body {
   display: none;
 }
 
-#index_box {
+#index-view {
   padding-top: 20px;
   clear: both;
 }
 
-#selected_box {
+#filter-selected-view {
   padding-top: 20px;
 }
 
 .facet_term {
-  float: left;
-  display: block;
   margin-right: 4px;
   color: #6998f0;
 }
@@ -77,7 +90,7 @@ body {
 }
 
 
-#search_box {
+#search-view {
 }
 
 input#q {
@@ -96,7 +109,7 @@ input#submit {
 
 #right {
   float:left;
-  width: 760px;
+  width: 740px;
 }
 
 .search_result {

@@ -149,6 +149,7 @@ get '/search' do
       haml :search
     end
   else
+    @numFound = 0
     haml :search
   end
 end

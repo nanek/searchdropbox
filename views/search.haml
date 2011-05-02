@@ -1,19 +1,19 @@
 #left
-  #selected_box
+  #filter-selected-view
   - if !params[:content_type].nil? && !params[:content_type].empty?
     %a(href="#" class="selected_content_type")
-      ="(x) content_type: #{params[:content_type]}"
+      ="Content Type: #{params[:content_type]}"
 
-  #filter_box
+  #filter-view
   - @facets.each do |facet|
-    %h3= facet[0]
+    %h3 Content Type 
     .facet
       - facet[1].each_index do |index|
-        - if index % 2==0 then
+        - if index % 2==0 && facet[1][index+1]>0 then
           %a(href="#" class="facet_term facet_term_size_#{facet[1][index+1].to_s}")
             = facet[1][index]
 
-  #index_box
+  #index-view
     %form{:id => "index_form", :action => "/index", :method => "post", "data-remote" => "true"}
       %p 
         Dropbox Folder to Add to Index
@@ -23,7 +23,7 @@
     %form{:id => "delete_form", :action => "/delete", :method => "post", "data-remote" => "true", "data-confirm" => "Are you sure?"}
       %input{:type => "submit", :value => "Delete Index", :id => "delete_btn"}
 #right
-  #search_box
+  #search-view
     %form{:id => "search_form", :action => "/search", :method => "get", "data-remote" => "true"}
       %input{:type => "text", :name => "q", :id => "q", :value => params[:q] }
       %input{:type => "hidden", :name => "content_type", :id => "content_type", :value => params[:content_type] }
@@ -32,10 +32,10 @@
     %img(src="/images/loading.gif")
     Loading...
   #message
-  #search_count
-    Results: 
-    #numFound= @numFound
-  #search_results
+  #doc-list-view
+    %span#result-data
+      %span#result-count= @numFound
+      results 
     - @results.each do |result|
       .search_result
         %a(href="/file?n=#{result['id']}" target="_new") 
@@ -47,9 +47,9 @@
 
 %script(type="text/template" id="doc-template")
   .search_result
-    - link = "/file?n=<%= doc_id %>"
-    %a(href=link target="_new") 
-      .doc_id <%= doc_id %> 
+    <a href="/file?n=<%= doc_id %>" target="_new">
+    .doc_id <%= doc_id %> 
+    </a>
     .snippet <%= snippet %> 
     .info
       .content_type <%= content_type %>
@@ -58,8 +58,9 @@
   %h3 <%= name %> 
   .facet
     <% _.each(filterTerms.models, function(term) { %> 
-    %a(href="#" class="facet_term facet_term_size_<%= term.attributes.count %>")
-      <%= term.attributes.name %>
+    <a href="#" class="facet_term facet_term_size_<%= term.attributes.count %>">
+    <%= term.attributes.name %>
+    </a>
     <% }); %>
 %script(type="text/template" id="filter-selected-template")
   <% if (fq!="") { %>
