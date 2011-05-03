@@ -7,7 +7,7 @@ require 'haml'
 require 'pathname'
 require 'fileutils'
 
-require 'config/init.rb'
+require './config/init'
 
 configure do   
   yaml = YAML.load_file("config/config.yml")[settings.environment.to_s]

@@ -3,6 +3,6 @@ require 'bundler'
 
 Bundler.require
 
-require 'searchdropbox'
+require './searchdropbox'
 
 run Sinatra::Application 
