@@ -13,7 +13,8 @@ $(function() {
       this.model.bind("change:fq", this.search);
     },
 
-    updateQuery: function() {
+    updateQuery: function(e) {
+      e.preventDefault();
       this.model.set({q:$('#q').val()});
     },
 
@@ -52,6 +53,45 @@ $(function() {
       }
     },
   });
+  window.IndexedDocumentView = Backbone.View.extend({
+    el: $('#index-view'),
+    events: {
+      "submit #index_form":   "indexPath",
+      "submit #delete_form":  "deleteIndex"
+    },
+    indexPath: function(e) {
+      e.preventDefault();
+      var folder = $('#f').val();
+      var jqxhr = $.ajax({ url: "/index",
+        type: "POST",
+        data: ({f: folder}),
+        });
+      jqxhr.success(this.processIndexPath);
+      jqxhr.complete(this.processComplete);
+      jqxhr.error(this.processError);
+    },
+    deleteIndex: function(e) {
+      e.preventDefault();
+      var folder = $('#f').val();
+      var jqxhr = $.ajax({ url: "/delete",
+        type: "POST",
+        });
+      jqxhr.success(this.processDeleteIndex);
+      jqxhr.complete(this.processComplete);
+      jqxhr.error(this.processError);
+    },
+    processIndexPath: function(data) {
+      $('#message').text(data).show();
+    },
+    processDeleteIndex: function(data) {
+      $('#message').text(data).show();
+    },
+    processError: function(data) {
+      $('#message').text("An error has occured, please try again later.").show();
+    },
+    processComplete: function(data) {
+    }
+  });
   window.FilterView = Backbone.View.extend({
     el: $('#left'),
     events: {
@@ -83,6 +123,7 @@ $(function() {
   window.AppSearchView = new SearchView({model: query});
   window.AppFilterView = new FilterView({model: query});
   window.AppFilterSelectedView = new FilterSelectedView({model: query});
+  window.AppIndexedDocumentView = new IndexedDocumentView;
 
   window.FilterTerm = Backbone.Model.extend({});
   window.FilterTerms = Backbone.Collection.extend({
