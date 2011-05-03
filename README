@@ -1,11 +1,9 @@
-Full Text Search with Dropbox
+# Full Text Search with Dropbox
 
-Description
-===========
-Allows you to full text index documents stored in your dropbox account.  Upon authenticating, you can input the Dropbox directory to index.
+## Description
+Allows you to full text index documents stored in your dropbox account.  Upon authenticating, you can input the Dropbox directories to index.
 
-Installation
-============
+## Installation
 Requires Solr 3.1.0 or above
 
 Install Solr and run using the example configuration:
@@ -24,12 +22,14 @@ thin -C thin.yml stop
 
 Should default to running at http://yourhost:4567/
 
-Development notes
-============
+## Development notes
 Uses sinatra, haml, ujs, dropbox, rsolr, and backbone.js.
 
-Roadmap
-========
+## To run tests
+- rspec spec/
+- rake jasmine:ci or rake jasmine
+
+## Roadmap
 - Update UI
 - Add caching to dropbox api calls
 - Add more tests
